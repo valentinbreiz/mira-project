@@ -24,7 +24,7 @@
 #include <mira/plugins/filetransfer/filetransfer_plugin.h>
 #include <mira/plugins/logserver/logserver_plugin.h>
 #include <mira/plugins/debugger/debugger_plugin.h>
-
+#include <mira/hen/hen_plugin.h>
 //
 //	Utilities
 //
@@ -236,6 +236,14 @@ void oni_kernelInitialization(void* args)
 uint8_t __noinline mira_installDefaultPlugins()
 {
 	// Initialize default plugins
+	struct hen_plugin_t* henPlugin = (struct hen_plugin_t*)kmalloc(sizeof(struct hen_plugin_t));
+	if (!henPlugin)
+	{
+		WriteLog(LL_Error, "could not allocate hen plugin.");
+		return false;
+	}
+	hen_init(henPlugin);
+	pluginmanager_registerPlugin(gFramework->pluginManager, &henPlugin->plugin);
 
 	// Register file transfer plugin
 	struct filetransfer_plugin_t* filetransferPlugin = (struct filetransfer_plugin_t*)kmalloc(sizeof(struct filetransfer_plugin_t));
@@ -247,7 +255,7 @@ uint8_t __noinline mira_installDefaultPlugins()
 	filetransfer_plugin_init(filetransferPlugin);
 	pluginmanager_registerPlugin(gFramework->pluginManager, &filetransferPlugin->plugin);
 
-	WriteLog(LL_Info, "Allocating logserver");
+	/*WriteLog(LL_Info, "Allocating logserver");
 	struct logserver_plugin_t* logServer = (struct logserver_plugin_t*)kmalloc(sizeof(struct logserver_plugin_t));
 	if (!logServer)
 	{
@@ -255,7 +263,7 @@ uint8_t __noinline mira_installDefaultPlugins()
 		return false;
 	}
 	logserver_init(logServer);
-	pluginmanager_registerPlugin(gFramework->pluginManager, &logServer->plugin);
+	pluginmanager_registerPlugin(gFramework->pluginManager, &logServer->plugin);*/
 
 	// Initialize the plugin loader to read from file
 	struct pluginloader_t* pluginLoader = (struct pluginloader_t*)kmalloc(sizeof(struct pluginloader_t));
@@ -279,24 +287,24 @@ uint8_t __noinline mira_installDefaultPlugins()
 	debugger_plugin_init(gDebugger);
 	pluginmanager_registerPlugin(gFramework->pluginManager, &gDebugger->plugin);
 
-	// Kick off the rpc server thread
-	WriteLog(LL_Debug, "[+] Allocating rpc server");
-	gFramework->rpcServer = (struct rpcserver_t*)kmalloc(sizeof(struct rpcserver_t));
-	if (!gFramework->rpcServer)
-	{
-		WriteLog(LL_Error, "could not allocate rpc server.");
-		return false;
-	}
-	rpcserver_init(gFramework->rpcServer, gInitParams->process);
-	
-	WriteLog(LL_Debug, "[+] Finished Initializing rpc server proc: %p", gInitParams->process);
+	//// Kick off the rpc server thread
+	//WriteLog(LL_Debug, "[+] Allocating rpc server");
+	//gFramework->rpcServer = (struct rpcserver_t*)kmalloc(sizeof(struct rpcserver_t));
+	//if (!gFramework->rpcServer)
+	//{
+	//	WriteLog(LL_Error, "could not allocate rpc server.");
+	//	return false;
+	//}
+	//rpcserver_init(gFramework->rpcServer, gInitParams->process);
+	//
+	//WriteLog(LL_Debug, "[+] Finished Initializing rpc server proc: %p", gInitParams->process);
 
-	// Startup the server, it will kick off the thread
-	if (!rpcserver_startup(gFramework->rpcServer, 9999))
-	{
-		WriteLog(LL_Error, "[-] rpcserver_startup failed");
-		return false;
-	}
+	//// Startup the server, it will kick off the thread
+	//if (!rpcserver_startup(gFramework->rpcServer, 9999))
+	//{
+	//	WriteLog(LL_Error, "[-] rpcserver_startup failed");
+	//	return false;
+	//}
 
 	return true;
 }

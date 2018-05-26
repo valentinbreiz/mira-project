@@ -44,7 +44,7 @@ L_DIRS	:=	-L.	-Llib -L$(ONI_FRAMEWORK)
 LIBS	:= -l:OniFramework.a
 
 # Orbis flags
-ORB_VER	:= -D_KERNEL -D_DEBUG=1
+ORB_VER	:= -D_KERNEL -D_DEBUG=1 -D_STANDALONE
 
 # C++ Flags
 CFLAGS	:= $(I_DIRS) $(ORB_VER) -std=c11 -O2 -fno-builtin -nostartfiles -nodefaultlibs -nostdlib -nostdinc -fcheck-new -ffreestanding -fno-strict-aliasing -fno-exceptions -fno-asynchronous-unwind-tables -Wall -m64 -fPIC -Werror -Wno-unknown-pragmas

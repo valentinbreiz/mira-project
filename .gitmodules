@@ -4,3 +4,6 @@
 [submodule "Firmware/Dependencies/freebsd-headers"]
 	path = Firmware/Dependencies/freebsd-headers
 	url = https://github.com/OpenOrbis/freebsd-headers.git
+[submodule "Tools/mira-toolbox"]
+	path = Tools/mira-toolbox
+	url = git@github.com:OpenOrbis/mira-toolbox.git

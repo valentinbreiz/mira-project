@@ -38,7 +38,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeIncludeSearchPath>$(SolutionDir)Firmware\Dependencies\oni-framework\include;$(ProjectDir)src;$(SolutionDir)Firmware\Dependencies\freebsd-headers\include</NMakeIncludeSearchPath>
-    <NMakePreprocessorDefinitions>_KERNEL;_DEBUG;_KERNEL;</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>_KERNEL;_STANDALONE;_DEBUG;_KERNEL;</NMakePreprocessorDefinitions>
     <AdditionalSourcesToCopyMapping>Makefile;$(AdditionalSourcesToCopyMapping)</AdditionalSourcesToCopyMapping>
     <RemoteBuildCommandLine>cd $(RemoteProjectDir);make create;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteProjectDir);make create;make clean;make</RemoteReBuildCommandLine>
@@ -47,7 +47,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NMakeIncludeSearchPath>$(SolutionDir)Firmware\Dependencies\oni-framework\include;$(ProjectDir)src;$(SolutionDir)Firmware\Dependencies\freebsd-headers\include</NMakeIncludeSearchPath>
-    <NMakePreprocessorDefinitions>_KERNEL;_KERNEL;</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>_KERNEL;_STANDALONE;_KERNEL;</NMakePreprocessorDefinitions>
     <AdditionalSourcesToCopyMapping>Makefile;$(AdditionalSourcesToCopyMapping)</AdditionalSourcesToCopyMapping>
     <RemoteBuildCommandLine>cd $(RemoteProjectDir);make create;make</RemoteBuildCommandLine>
     <RemoteReBuildCommandLine>cd $(RemoteProjectDir);make create;make clean;make</RemoteReBuildCommandLine>
@@ -57,6 +57,10 @@
   <ItemGroup>
     <None Include="src\crt0.s" />
     <None Include="src\link.x" />
+    <None Include="src\mira\hen\hen_embed.s" />
+    <None Include="src\mira\hen\kpayload.bin">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Makefile" />
@@ -66,6 +70,7 @@
     <ClCompile Include="src\mira\boot\patches\patches501.c" />
     <ClCompile Include="src\entrypoint.c" />
     <ClCompile Include="src\mira\boot\patches\patches505.c" />
+    <ClCompile Include="src\mira\hen\hen_plugin.c" />
     <ClCompile Include="src\mira\plugins\debugger\debugger_plugin.c" />
     <ClCompile Include="src\mira\plugins\filetransfer\filetransfer_plugin.c" />
     <ClCompile Include="src\mira\plugins\logserver\logserver_plugin.c" />
@@ -75,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\mira\boot\patches.h" />
+    <ClInclude Include="src\mira\hen\hen_plugin.h" />
     <ClInclude Include="src\mira\plugins\debugger\debugger_plugin.h" />
     <ClInclude Include="src\mira\plugins\filetransfer\filetransfer_plugin.h" />
     <ClInclude Include="src\mira\plugins\logserver\logserver_plugin.h" />
