@@ -2,10 +2,23 @@ version: 1.2.{build}
 
 image: Ubuntu
 
-build:
-  verbosity: minimal
-  
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+    - feature/refactor1_2
+
+  # blacklist
+  except:
+    - gh-pages
+
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
+
+# Start builds on tags only (GitHub and BitBucket)
+skip_non_tags: true
+
 install:
-  - git clone -b $APPVEYOR_REPO_BRANCH --recurse-submodules https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
-  - git checkout -q %APPVEYOR_REPO_COMMIT%
-  - git submodule update --init --recursive
+   - sh: git submodule update --init --recursive --force
+   - sh: git submodule sync
