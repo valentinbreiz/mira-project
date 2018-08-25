@@ -25,6 +25,7 @@ struct miraframework_t
 	struct filetransfer_plugin_t* fileTransferPlugin;
 	struct orbisutils_plugin_t* orbisUtilsPlugin;
 	struct cheat_plugin_t* cheatPlugin;
+	struct linux_loader_t* LinuxLoader;
 
 	struct consoleplugin_t* consolePlugin;
 	struct henplugin_t* henPlugin;

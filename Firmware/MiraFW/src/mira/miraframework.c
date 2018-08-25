@@ -19,6 +19,7 @@
 #include <mira/plugins/orbisutils/orbisutils_plugin.h>
 #include <mira/plugins/cheat/cheat_plugin.h>
 #include <mira/plugins/console/consoleplugin.h>
+#include <mira/plugins/console/linuxloader_plugin.h>
 
 //
 //	Utilities
@@ -365,6 +366,18 @@ uint8_t __noinline mira_installDefaultPlugins(struct miraframework_t* framework)
 	cheat_plugin_init(framework->cheatPlugin);
 	pluginmanager_registerPlugin(framework->framework.pluginManager, &framework->cheatPlugin->plugin);
 	
+	// Linux Loader plugin
+	WriteLog(LL_Info, "allocating linux loader plugin");
+
+	framework->LinuxLoader = (struct linux_loader_t*)kmalloc(sizeof(struct linux_loader_t));
+	if (!framework->LinuxLoader)
+	{
+		WriteLog(LL_Error, "could not allocate linux loader plugin");
+		return false;
+	}
+	linux_loader_plugin_init(framework->LinuxLoader);
+	pluginmanager_registerPlugin(framework->framework.pluginManager, &framework->LinuxLoader->plugin);
+
 	// Kick off the rpc server thread
 	WriteLog(LL_Debug, "allocating rpc server");
 	framework->framework.rpcServer = NULL;
